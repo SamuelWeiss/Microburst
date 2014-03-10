@@ -2,8 +2,8 @@ TODO
 
 This file contains tasks that need work
 
-1. write the game
-2. make all the art
-3. choose or make some music
-4. ???
-5. profit
+1. Created classes for different types of objects
+2. figure out how to draw at angles
+3. write enemy AI
+4. compute collisions
+5. figure out score mechanics
