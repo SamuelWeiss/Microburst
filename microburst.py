@@ -19,7 +19,6 @@ from pygame.locals import *
 class sprite_base(pygame.sprite.Sprite):
     '''a base class for objects to streamline'''
     def load_image(self, image_name):
-    '''load the image for the sprite'''
         try:
             image = pygame.image.load(image_name)
         except pygame.error, message:
@@ -99,23 +98,34 @@ clock = pygame.time.Clock()
 '''limit framerate to 60 FPS'''
 FPS = 60
 '''game length in seconds'''
-gamelength = 240
+gamelength = 20
 pygame.time.set_timer(USEREVENT + 1, 1000)
 '''keep track of the opjects'''
 objects = []
 '''keep track of what screen we're on'''
 screen = 1
+gamestart = 0
 while True:
     clock.tick(FPS)
     if screen == 1:
         '''draw some intro screen'''
-    elif:
+        for event in pygame.event.get():
+            if event.type == KEYUP:
+                if event.key == K_ESCAPE:
+                    quit()
+                if event.key == K_SPACE:
+                    screen = 2
+                    gamestart = time.clock()
+                    print gamestart
+    elif screen == 3:
+        quit()
+    elif screen == 2:
         for l in objects:
             l.draw()
             l.update()
         pygame.display.flip()
         if(time.clock() - gamestart >= gamelength):
-            screen += 1
+            screen == 3
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
