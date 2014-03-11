@@ -58,7 +58,9 @@ class sprite_base(pygame.sprite.Sprite):
 
 class player(sprite_base):
     '''create a class for the player'''
-    //MUST CHANGE INIT, holds more data
+    def __init__(self, screen, x, y, dx, dy, img_name, size):
+        self.size = size
+        super(screen, x, y, dx, dy, img_name)
     def update(self, keys):
         for i in keys:
             if i == "UP":
@@ -97,9 +99,9 @@ def init_game(objects, screen, num_enemies, num_food):
     food = []
     background = []
     players.append(player(screen, 400, 300, 0, 0, "player.png"))
-    for i in range num_enemies:
+    for i in range(num_enemies):
         enemies.append( enemy(screen, 100, 100, 1, 1, "enemy.png"))
-    for i in range num_food:
+    for i in range(num_food):
         food.append(food( screen, 500, 500, 0, 0, "food.png"))
     background.append(background(screen))
     objects.append(players)
@@ -152,13 +154,14 @@ while True:
                     screen = 2
                     gamestart = time.clock()
                     print str(gamestart) + " " +  str(time.clock())
-                    game_init(objects, screen)
+                    init_gameOA(objects, screen)
     elif screen == 3:
         quit()
     elif screen == 2:
         for l in objects:
-            l.draw()
-            l.update()
+            for o in l:
+                l.draw()
+                l.update()
         pygame.display.flip()
         if(time.clock() - gamestart >= gamelength):
             screen == 3
