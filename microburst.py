@@ -49,7 +49,7 @@ class sprite_base(pygame.sprite.Sprite):
         '''check to make sure that moving will not move you out of bounds'''
         if self.x + self.dx > 0 and self.x + self.dx < screen.width - self.image_w:
             self.x += self.dx
-        if self.y + self.dy > 0 and self.y+self.dy < (screen.width - self.image_h):
+        if self.y + self.dy > 0 and self.y+self.dy < (screen.height - self.image_h):
             self.y += self.dy
         '''update the rectangle if it does not'''
         self.rect.move(self.x, self.y)
@@ -58,19 +58,54 @@ class sprite_base(pygame.sprite.Sprite):
 
 class player(sprite_base):
     '''create a class for the player'''
-    '''load, init, and draw will all be the same as the base'''
+    //MUST CHANGE INIT, holds more data
     def update(self, keys):
         for i in keys:
             if i == "UP":
                 self.dy = - 3
-            elif i == "DOWN":
+            if i == "DOWN":
                 self.dy = 3
-            elif i == "LEFT":
+            if i == "LEFT":
                 self.dx = - 3
-            elif i == "RIGHT":
+            if i == "RIGHT":
                 self.dx = 3
         super.update()
 
+class enemy(sprite_base):
+    def update(self):
+        if self.x + self.dx < 0 or self.x+self.dy > (screen.width - self.image_w): 
+            self.dx = -1 * self.dx;
+        if self.y + self.dy > 0 and self.y+self.dy < (screen.width - self.image_h):
+            self.dy = -1 * self.dy
+        super.update()
+
+class food(sprite_base):
+    '''needswork'''
+        
+
+'''
++----------------------------------------------------------------------------+
+|                                                                            |
+|                           Init function code                               |
+|                                                                            |
++----------------------------------------------------------------------------+
+'''
+
+def init_game(objects, screen, num_enemies, num_food):
+    players = []
+    enemies = []
+    food = []
+    background = []
+    players.append(player(screen, 400, 300, 0, 0, "player.png"))
+    for i in range num_enemies:
+        enemies.append( enemy(screen, 100, 100, 1, 1, "enemy.png"))
+    for i in range num_food:
+        food.append(food( screen, 500, 500, 0, 0, "food.png"))
+    background.append(background(screen))
+    objects.append(players)
+    objects.append(enemies)
+    objects.append(food)
+    objects.append(background)
 
 
 '''
@@ -116,7 +151,8 @@ while True:
                 if event.key == K_SPACE:
                     screen = 2
                     gamestart = time.clock()
-                    print gamestart
+                    print str(gamestart) + " " +  str(time.clock())
+                    game_init(objects, screen)
     elif screen == 3:
         quit()
     elif screen == 2:
