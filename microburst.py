@@ -74,6 +74,10 @@ class player(sprite_base):
         super.update()
 
 class enemy(sprite_base):
+    def __init__(self, screen, x, y, dx, dy, img_name, size):
+        self.size = size
+        super(screen, x, y, dx, dy, img_name)
+
     def update(self):
         if self.x + self.dx < 0 or self.x+self.dy > (screen.width - self.image_w): 
             self.dx = -1 * self.dx;
@@ -82,6 +86,9 @@ class enemy(sprite_base):
         super.update()
 
 class food(sprite_base):
+    def __init__(self, screen, x, y, dx, dy, img_name, size):
+        self.size = size
+        super(screen, x, y, dx, dy, img_name)
     '''needswork'''
         
 
@@ -158,6 +165,21 @@ while True:
     elif screen == 3:
         quit()
     elif screen == 2:
+        for o in objects[1]:
+            if pygame.sprite.collide_rect(objects[0][0],o):
+                if objects[0][0].size > o.size:
+                    objects[1].remove(o)
+                    objects[0][0].size += o.size / 5
+                else:
+                    screen = 3
+        for o in objects[2]:
+            if pygame.sprite.collide_rect(objects[0][0],o):
+                if objects[0][0].size > o.size:
+                    objects[1].remove(o)
+                    objects[0][0].size += o.size / 10
+                else:
+                    o.dx = objects[0][0].dx * 2
+                    o.dy = objects[0][0].dy * 2
         for l in objects:
             for o in l:
                 l.draw()
